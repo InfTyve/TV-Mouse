@@ -10,6 +10,7 @@
     <string name="about">说明</string>
     <string name="mouse_settings">鼠标设置</string>
     <string name="scroll_toggle">固定滑动</string>
+    <string name="move_speed">移动速度</string>
     <string name="close_mouse">关闭鼠标指针</string>
     <string name="github_project">GitHub 项目</string>
     <string name="language_follow_system">跟随系统</string>

@@ -10,6 +10,7 @@
     <string name="about">Help</string>
     <string name="mouse_settings">Mouse Settings</string>
     <string name="scroll_toggle">Fixed Scroll</string>
+    <string name="move_speed">Move Speed</string>
     <string name="close_mouse">Close Mouse Pointer</string>
     <string name="github_project">GitHub Project</string>
     <string name="language_follow_system">Follow System</string>

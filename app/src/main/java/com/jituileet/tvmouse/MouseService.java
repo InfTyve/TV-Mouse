@@ -11,6 +11,12 @@ import android.widget.*;
 import java.io.File;
 
 public class MouseService extends Service {
+    public static final String PREF_SETTINGS = "settings";
+    public static final String KEY_MOVE_SPEED = "move_speed";
+    public static final int MOVE_SPEED_MIN = 8;
+    public static final int MOVE_SPEED_MAX = 40;
+    public static final int MOVE_SPEED_DEFAULT = 20;
+
     private WindowManager wm;
     private ImageView pointer;
     private float x=500,y=300;
@@ -107,7 +113,13 @@ public class MouseService extends Service {
     public int getPointerX(){return (int)x;} public int getPointerY(){return (int)y;}
     public void beginMoveHold(){moveHoldStart=System.currentTimeMillis();} public void endMoveHold(){moveHoldStart=0;}
     public long getMoveHoldTime(){return moveHoldStart==0?0:System.currentTimeMillis()-moveHoldStart;}
-    public float getMoveSpeedPx(){float d=getResources().getDisplayMetrics().density;return 20f*d;}
+    public static int getMoveSpeed(Context c){
+        return c.getSharedPreferences(PREF_SETTINGS, Context.MODE_PRIVATE).getInt(KEY_MOVE_SPEED, MOVE_SPEED_DEFAULT);
+    }
+    public static void setMoveSpeed(Context c, int speed){
+        c.getSharedPreferences(PREF_SETTINGS, Context.MODE_PRIVATE).edit().putInt(KEY_MOVE_SPEED, speed).apply();
+    }
+    public float getMoveSpeedPx(){return getMoveSpeed(this) * getResources().getDisplayMetrics().density;}
     public void click(){MouseAccessibilityService.performClickAt((int)x,(int)y);}
 
     public void setScroll(boolean value){scroll=value; applyScrollAppearance(); Toast.makeText(this,scroll?"已开启固定滑动":"已关闭固定滑动",Toast.LENGTH_SHORT).show();}

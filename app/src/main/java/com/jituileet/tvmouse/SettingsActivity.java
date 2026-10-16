@@ -49,6 +49,7 @@ public class SettingsActivity extends Activity {
         TextView title=text(getString(R.string.mouse_settings),23,true); title.setGravity(Gravity.CENTER_VERTICAL);
         box.addView(title,new LinearLayout.LayoutParams(-1,dp(70)));
         addRow("⌖",getString(R.string.hide_pointer),v->{MouseService s=ServiceRegistry.get();if(s!=null)s.toggleHidden();else toast(getString(R.string.mouse_not_started));});
+        addSpeedRow();
         addRow("✦",getString(R.string.custom_appearance),v->showAppearancePanel());
         addRow("文",getString(R.string.language),v->showLanguagePanel());
         addRow("■",getString(R.string.close_mouse),v->{MouseService s=ServiceRegistry.get();if(s!=null)s.stopSelf();finish();});
@@ -145,6 +146,30 @@ public class SettingsActivity extends Activity {
                 }).show();
         }));
         d.show();
+    }
+
+    private void addSpeedRow() {
+        LinearLayout wrap=new LinearLayout(this);wrap.setOrientation(LinearLayout.VERTICAL);wrap.setPadding(dp(10),dp(2),dp(10),dp(2));
+        LinearLayout header=new LinearLayout(this);header.setOrientation(LinearLayout.HORIZONTAL);header.setGravity(Gravity.CENTER_VERTICAL);
+        TextView label=text(getString(R.string.move_speed),16,false);label.setGravity(Gravity.CENTER_VERTICAL);
+        header.addView(label,new LinearLayout.LayoutParams(0,dp(40),1));
+        final TextView value=text("",14,false);value.setGravity(Gravity.CENTER_VERTICAL|Gravity.END);
+        header.addView(value,new LinearLayout.LayoutParams(dp(60),dp(40)));
+        wrap.addView(header,new LinearLayout.LayoutParams(-1,dp(40)));
+        final SeekBar bar=new SeekBar(this);
+        bar.setMax(MouseService.MOVE_SPEED_MAX-MouseService.MOVE_SPEED_MIN);
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            @Override public void onProgressChanged(SeekBar sb,int progress,boolean fromUser){
+                int speed=progress+MouseService.MOVE_SPEED_MIN;
+                value.setText(String.valueOf(speed));
+                if(fromUser) MouseService.setMoveSpeed(SettingsActivity.this,speed);
+            }
+            @Override public void onStartTrackingTouch(SeekBar sb){}
+            @Override public void onStopTrackingTouch(SeekBar sb){}
+        });
+        bar.setProgress(MouseService.getMoveSpeed(this)-MouseService.MOVE_SPEED_MIN);
+        wrap.addView(bar,new LinearLayout.LayoutParams(-1,dp(48)));
+        box.addView(wrap,new LinearLayout.LayoutParams(-1,dp(92)));
     }
 
     private void addRow(String icon,String label,View.OnClickListener click) {
