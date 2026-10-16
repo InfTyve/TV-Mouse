@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
         root.addView(title(getString(R.string.title),30),new LinearLayout.LayoutParams(-1,dp(72)));
         status=title("",15);status.setTypeface(Typeface.DEFAULT,Typeface.NORMAL);root.addView(status,new LinearLayout.LayoutParams(-1,dp(52)));
 
-        enable=button(getString(R.string.toggle_mouse));hide=button(getString(R.string.hide_pointer));customAppearance=button(getString(R.string.custom_appearance));language=button(getString(R.string.language));overlay=button(getString(R.string.open_overlay));accessibility=button(getString(R.string.open_accessibility));about=button(getString(R.string.about));
+        enable=button(getString(R.string.toggle_mouse));hide=button(getString(R.string.hide_pointer));customAppearance=button(getString(R.string.custom_appearance));language=button(getString(R.string.language));overlay=button(getString(R.string.open_overlay));accessibility=button(getString(R.string.open_accessibility));about=button(getString(R.string.open_settings));
         addButton(enable);addButton(hide);addButton(customAppearance);addButton(language);addButton(overlay);addButton(accessibility);addButton(about);
         setContentView(sv);
 
@@ -68,7 +68,7 @@ public class MainActivity extends Activity {
     private void openOverlaySettings(){try{if(Build.VERSION.SDK_INT>=23)startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:"+getPackageName())));else toast(getString(R.string.overlay_not_required));}catch(Exception e){startActivity(new Intent(Settings.ACTION_SETTINGS));}}
     private void openGithub(){try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/JituiLeet/TV-Mouse")));}catch(Exception e){toast(getString(R.string.cannot_open_link));}}
 
-    private void showAbout(){startActivity(new Intent(this, AboutActivity.class));}
+    private void showAbout(){startActivity(new Intent(this, SettingsActivity.class));}
     private void toast(String s){Toast.makeText(this,s,Toast.LENGTH_SHORT).show();}
     private int dp(int x){return (int)(x*getResources().getDisplayMetrics().density+0.5f);}
 }

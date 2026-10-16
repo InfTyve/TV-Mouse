@@ -54,6 +54,7 @@ public class SettingsActivity extends Activity {
         addRow("文",getString(R.string.language),v->showLanguagePanel());
         addRow("■",getString(R.string.close_mouse),v->{MouseService s=ServiceRegistry.get();if(s!=null)s.stopSelf();finish();});
         addRow("G",getString(R.string.github_project),v->openGithub());
+        addRow("√",getString(R.string.about),v->abbout())
         setContentView(box);
         if(box.getChildCount()>1) box.getChildAt(1).requestFocus();
     }
@@ -183,4 +184,5 @@ public class SettingsActivity extends Activity {
     private void openGithub(){try{startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://github.com/JituiLeet/TV-Mouse")));}catch(Exception e){toast(getString(R.string.cannot_open_link));}}
     private void toast(String s){Toast.makeText(this,s,Toast.LENGTH_SHORT).show();}
     private int dp(int n){return (int)(n*getResources().getDisplayMetrics().density+0.5f);}
+    private void abbout(){startActivity(new Intent(this, AboutActivity.class));}
 }
